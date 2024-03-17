@@ -11,10 +11,13 @@
             <div class="ml-3 w-100 p-2">
                 <h4 class="mb-0 mt-0">{{ current_user.username.capitalize() }}</h4> <span>{{ current_user.email }}</span>
                 <div class="p-2 mt-2 bg-primary d-flex justify-content-around rounded text-white stats">
-                    <div class="d-flex flex-column align-items-center"> <span class="articles">Cursos</span> <span class="number1">0</span>
-                    </div>
-                    <div class="d-flex flex-column align-items-center"> <span class="rating">Posts</span> <span class="number3">0</span>
-                    </div>
+                    {% if 'Não Informado' in current_user.cursos %}
+                        <div class="d-flex flex-column align-items-center"> <span class="articles">Cursos</span> <span class="number1">0</span></div>
+                    {% else %}
+                        <div class="d-flex flex-column align-items-center"> <span class="articles">Cursos</span> <span class="number1">{{ current_user.cursos.count(';') + 1 }}</span></div>
+                    {% endif %}
+                        <div class="d-flex flex-column align-items-center"> <span class="rating">Posts</span> <span class="number3">0</span></div>
+                
                 </div>
                 <div class="button mt-2 d-flex flex-row align-items-center"> 
                     <a class="w-100" href="{{ url_for('editar_perfil') }}">
@@ -23,6 +26,14 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col col-4" style="text-align: center">
+        <strong>Cursos</strong><br>
+        {% for curso in current_user.cursos.split(';') %}
+        <button type="button" class="btn btn-success mt-2" disabled>{{ curso }}</button>
+        {% endfor %}
     </div>
 </div>
 {% block form_editar_perfil %}
